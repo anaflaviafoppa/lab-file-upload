@@ -11,15 +11,39 @@ router.get('/sign-up', (req, res, next) => {
   res.render('sign-up');
 });
 
-router.post('/sign-up', (req, res, next) => {
+const multer = require('multer');
+const cloudinary = require('cloudinary');
+const multerStorageCloudinary = require('multer-storage-cloudinary');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_API_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = multerStorageCloudinary({
+  cloudinary,
+  folder: 'profileImage',
+  allowFormats: ['jpg','png']
+});
+
+const uploader = multer({ storage });
+
+router.post('/sign-up', 
+  uploader.single('picture'),
+  (req, res, next) => {
+
   const { name, email, password } = req.body;
+  const { url } = req.file;
+
   bcryptjs
     .hash(password, 10)
     .then(hash => {
       return User.create({
         name,
         email,
-        passwordHash: hash
+        passwordHash: hash,
+        picture:url
       });
     })
     .then(user => {

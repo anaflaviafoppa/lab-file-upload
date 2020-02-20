@@ -1,0 +1,20 @@
+<h1>Single Post</h1>
+
+<h1>{{post.title}}</h1>
+<img src="{{post.picture}}" alt="{{post.name}}">
+<p>{{post.description}}</p>
+
+{{#each comment}}
+  {{title}}
+{{/each}}
+
+  
+<form action="" method="POST" enctype="multipart/form-data">
+  <label for="input-title">Title</label>
+  <input type="text" id="input-title" name="title" placeholder="Choose your title">
+
+  <label for="input-description">Description</label>
+  <textarea id="input-description" name="description" placeholder="Text"></textarea>
+
+  <button>Create a Comment</button>
+</form>

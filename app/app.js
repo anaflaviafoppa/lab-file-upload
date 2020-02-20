@@ -16,6 +16,8 @@ const indexRouter = require('./routes/index');
 const authenticationRouter = require('./routes/authentication');
 const profileRouter = require('./routes/profile');
 
+const postRouter = require('./routes/post');
+
 const app = express();
 
 app.set('views', join(__dirname, 'views'));
@@ -58,7 +60,8 @@ app.use(bindUserToViewLocals);
 
 app.use('/', indexRouter);
 app.use('/authentication', authenticationRouter);
-app.use('/profile',profileRouter);
+app.use('/profile', profileRouter);
+app.use('/post', postRouter);
 
 // Catch missing routes and forward to error handler
 app.use((req, res, next) => {
