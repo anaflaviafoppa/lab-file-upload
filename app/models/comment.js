@@ -8,8 +8,14 @@ const commentSchema = new mongoose.Schema({
     trim: true,
     require:true
   },
-  idPost:{
-    type: String,
+  post:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post',
+    trim: true
+  },
+  author:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     trim: true
   },
   description:{

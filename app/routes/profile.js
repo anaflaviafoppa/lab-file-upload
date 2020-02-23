@@ -2,6 +2,29 @@ const express = require('express');
 const router = new express.Router();
 
 const User = require('./../models/user');
+const Post = require('./../models/post');
+
+router.get('/:userId', (req, res, next) => {
+  const { userId } = req.params;
+  let user;
+
+  User.findById(userId)
+    .then(document => {
+      user = document;
+      if (document) {
+        return Post.find({ author: userId }).populate('author');
+      } else {
+        next(new Error('USER_NOT_FOUND'));
+      }
+    })
+    .then(posts => {
+      const isOwnProfile = req.user && req.user._id.toString() === user._id.toString();
+      res.render('profile/single', { profile: user, posts, isOwnProfile });
+    })
+    .catch(error => {
+      next(error);
+    });
+});
 
 
 router.get('edit/:id',(req,res,next) => {
@@ -19,7 +42,7 @@ router.get('edit/:id',(req,res,next) => {
     });*/
 });
 
-/*
+
 const multer = require('multer');
 const cloudinary = require('cloudinary');
 const multerStorageCloudinary = require('multer-storage-cloudinary');
@@ -41,7 +64,7 @@ const uploader = multer({ storage });
 
 router.post('/edit',(req,res,next) => {
   res.redirect('/private');
-});*/
+});
 
 
 

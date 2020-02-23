@@ -18,10 +18,12 @@ const profileRouter = require('./routes/profile');
 
 const postRouter = require('./routes/post');
 
+const hbs = require('hbs');
 const app = express();
 
 app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+hbs.registerPartials(join(__dirname, 'views/partials'));
 
 app.use(serveFavicon(join(__dirname, 'public/images', 'favicon.ico')));
 app.use(
